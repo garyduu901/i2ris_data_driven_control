@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eyesnake Data Collector Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+    </style>
+    <script>
+        function toggleInputs(group) {
+            const group1 = document.querySelectorAll('.group1 input');
+            const group2 = document.querySelectorAll('.group2 input');
+            const button1 = document.getElementById('run_std_wp');
+            const button2 = document.getElementById('run_sin_wp');
+
+            if (group === 'group1') {
+                group1.forEach(input => input.disabled = false);
+                group2.forEach(input => input.disabled = true);
+                button1.disabled = false;
+                button2.disabled = true;
+            } else {
+                group1.forEach(input => input.disabled = true);
+                group2.forEach(input => input.disabled = false);
+                button1.disabled = true;
+                button2.disabled = false;
+            }
+        }
+
+        function enableCheckbox(group) {
+            const checkbox1 = document.getElementById('checkbox1');
+            const checkbox2 = document.getElementById('checkbox2');
+
+            if (group === 'group1') {
+                checkbox1.checked = true;
+                checkbox2.checked = false;
+            } else {
+                checkbox1.checked = false;
+                checkbox2.checked = true;
+            }
+
+            toggleInputs(group);
+        }
+    </script>
+</head>
+<body>
+    <h1>Eyesnake Data Collection</h1>
+        <div>
+            <label>
+                <input type="checkbox" id="checkbox1" onclick="enableCheckbox('group1')" checked>
+                Enable Standard Waypoints (Fixed Encoder Steps)
+            </label>
+        </div>
+
+        <div class="group1">
+            <label>Cycle <input type="number" name="std_cycle" id="cycle" placeholder="Enter # of Cycle" disabled></label><br>
+            <label>Max Encoder Range <input type="number" name="std_max_range" id="max_range" placeholder="Enter Max Encoder Range" disabled></label><br>
+            <label>Step Size <input type="number" name="std_step" id="step" placeholder="Enter Step Size" disabled></label><br>
+            <label>Input Frequency (Hz) <input type="number" name="std_freq" id="freq" placeholder="Enter Input Frequency (Hz)" disabled></label><br>
+            <button id="run_std_wp" onclick="run_std_snake()">Run Snake to Standard Waypoints</button>
+        </div>
+
+        <div>
+            <label>
+                <input type="checkbox" id="checkbox2" onclick="enableCheckbox('group2')">
+                Enable Sin Function Waypoints
+            </label>
+        </div>
+        
+
+        <div class="group2">
+            <label>Max Encoder Range <input type="number" name="sin_max_range" id="sin_max_range" placeholder="Enter Max Encoder Range" disabled></label><br>
+            <label>Input Frequency <input type="number" name="sin_freq" id="sin_freq" placeholder="Enter Input Frequency" disabled></label><br>
+            <label>Number of Waypoints <input type="number" name="pts" id="pts" placeholder="Enter # of Points" disabled></label><br>
+            <button id="run_sin_wp" onclick="run_sin_snake()">Run Snake to Sin Waypoints</button>
+        </div>
+
+        
+    
+    <!-- Button to run the video cap script -->
+    <button onclick="sendRequest('videocapture.py', 'start')">Run Video Capture</button>
+    <!-- <button onclick="sendRequest('videocapture.py', 'stop')">Stop Video Capture</button> -->
+
+    <p id="waypoint_output"></p>
+    <p id="sin_waypoint_output"></p>
+    <p id="video_output"></p>
+
+
+    <script>
+        // Function to send multiple inputs to the first script
+        async function run_std_snake() {
+            const cycle = document.getElementById('cycle').value;
+            const max_range = document.getElementById('max_range').value;
+            const step = document.getElementById('step').value;
+            const freq = document.getElementById('freq').value;
+
+            const response = await fetch('/run-sync-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cycle: cycle, max_range: max_range, step: step, freq: freq}),
+            });
+
+            const result = await response.text();
+            document.getElementById('waypoint_output').textContent = result;
+        }
+
+        async function run_sin_snake() {
+            const max_range = document.getElementById('sin_max_range').value;
+            const freq = document.getElementById('sin_freq').value;
+            const pts = document.getElementById('pts').value;
+
+            const response = await fetch('/run-sin-sync-data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ max_range: max_range, pts: pts, freq: freq}),
+            });
+
+            const result = await response.text();
+            document.getElementById('sin_waypoint_output').textContent = result;
+        }
+
+        // Function to run the second script without inputs
+        async function runVideo() {
+            const response = await fetch('/run-video-cap', { method: 'POST' });
+            const result = await response.text();
+            document.getElementById('video_output').textContent = result;
+        }
+
+        async function sendRequest(scriptName, action) {
+            try {
+                const response = await fetch(`/${action}/${scriptName}`, { method: "POST" });
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred!");
+            }
+        }
+    </script>
+</body>
+</html>
