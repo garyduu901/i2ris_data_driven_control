@@ -177,7 +177,7 @@ Make sure paths are adjusted relative to your main folder.
 | File                   | Description                                                 |
 | ---------------------- | ----------------------------------------------------------- |
 | `app.py`, `index.html` | GUI (currently not used)                                    |
-| `output_w_angles.csv`  | Final data output; clean manually (remove NaNs, check sync) |
+| `output_w_angles.csv`  | Final data output; clean accordingly (remove NaNs, check sync) |
 
 ---
 
