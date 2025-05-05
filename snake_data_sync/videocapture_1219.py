@@ -27,7 +27,7 @@ delete_and_create_folder('video_cap_script/cap_img/side/')
 counttop = 0
 countside = 0
 rospy.init_node('img', anonymous=True)
-pub = rospy.Publisher('Publish_Image_top', String , queue_size=10)
+pub = rospy.Publisher('Publish_Image', String , queue_size=10)
 img_ts_pub = rospy.Publisher('img_ts', String, queue_size=10)
 # rate = rospy.Rate(60)       
 rate = rospy.Rate(20)     
