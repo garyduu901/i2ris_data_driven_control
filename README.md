@@ -190,5 +190,5 @@ Make sure paths are adjusted relative to your main folder.
 
 ## Contact
 
-For support or troubleshooting, contact pdu5@jh.edu.
+For contributing and troubleshooting, contact pdu5@jh.edu.
 
