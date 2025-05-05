@@ -31,7 +31,7 @@ Using angle calculation algorithms and data-driven models, the system enables **
      ```bash
      source /opt/ros/noetic/setup.bash
      cd /epos_ros/devel/lib/epos_ros
-     ./epos_ros_node  # or the appropriate controller command
+      ./epos_ros_node –p USBX –n X 
      ```
 
 3. Open a third terminal window and run:
