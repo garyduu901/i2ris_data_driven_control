@@ -4,6 +4,42 @@ This README provides step-by-step instructions for data collection and model val
 
 ---
 
+## Update 1 (May 17th, 2025)
+
+The following controlling scripts have been added to the repo, with some updates to their functionality:
+
+### Controlling the Snake (`sync_data/`)
+
+| File                             | Description                                                                          |
+| -------------------------------- | ------------------------------------------------------------------------------------ |
+| `mppi_controller.py`             | MPPI controller implementation for controlling the I2RIS robot                       |
+| `mppi_controller_kim_fwd_kin.py` | MPPI controller with a forward kinematics model by Dr. Jin Seob Kim                  |
+| `lqr_controller_kim_fwd_kin.py`  | LQR controller with a forward kinematics model by Dr. Jin Seob Kim                   |
+| `i2ris_kinematics.py`            | Kinematics class based on Dr. Jin Seob Kim’s model (only forward kinematics is used) |
+| `sync_data_0221_two_motor.py`    | Script dedicated to homing the position of the I2RIS robot                           |
+
+### Image Capture and Calibration
+
+| File                    | Description                                                                |
+| ----------------------- | -------------------------------------------------------------------------- |
+| `cap_traj.py`           | Launches the front camera and starts recording; press `q` to exit and save |
+| `aruco_marker_track.py` | Tracks ArUco markers; used to check I2RIS trajectory after control scripts |
+| `tracked_output.mp4`    | Sample motion trajectory tracked using ArUco markers                       |
+| `traj.mp4`              | Video recorded via `cap_traj.py`                                           |
+
+### Edits to Running Data Collection Procedure
+
+1. Start the front camera by running `cap_traj.py` in a new VS Code window.
+2. Run one of the controller script:
+- `mppi_controller.py`
+- `mppi_controller_kim_fwd_kin.py`
+- `lqr_controller_kim_fwd_kin.py`
+- `lqr_controller.py`
+3. Once the robot finishes running, press `'q'` in the front camera feed window to save the recorded video.
+4. Run `aruco_marker_track.py` to track the trajectory.
+5. Run the PCC modeling scripts to map the trajectory in the X-Z plane. *(To be added)*
+---
+
 ## System Overview
 
 The I2RIS system captures the bending angles of the snake robot by applying various encoder counts to its motors. The setup includes:
@@ -151,8 +187,8 @@ Make sure paths are adjusted relative to your main folder.
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | `combined_data.csv`           | Output of `lqr_controller.py`, includes reference, simulated, and actual states |
 | `input.csv`                   | Sawtooth input used for model training                                          |
-| `lqr_controller.py`           | LQR controller for circular motion                                              |
-| `lqr_test.py`                 | Simulates inputs, reference signals, and results                                |
+| `lqr_controller.py`           | An implementation of LQR controller to control I2RIS motion                     |
+| ~~`lqr_test.py`~~             | ~~Simulates inputs, reference signals, and results~~                            |
 | `out.csv`                     | Output from data collection                                                     |
 | `sync_data_0221_two_motor.py` | Controls both motors simultaneously                                             |
 | `sync_data_0221_one_motor.py` | Controls a single motor                                                         |
