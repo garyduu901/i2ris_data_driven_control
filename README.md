@@ -143,8 +143,10 @@ Run the following script to compute angles:
 get_angle.py
 ```
 
-Make sure paths are adjusted relative to your main folder.
-Outputs are saved as `output_w_angles.csv`
+**Make sure paths are adjusted relative to your main folder.**
+**Outputs are saved as `output_w_angles.csv`**
+
+
 ---
 
 ## Scripts and Folder Overview
