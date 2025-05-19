@@ -45,12 +45,12 @@ Using angle calculation algorithms and data-driven models, the system enables **
 
 ## Data Collection Procedure
 
-1. Navigate to your workspace:
+Navigate to your workspace:
 
    ```bash
    cd /path/to/snake_data_sync
    ```
-
+<!--
 2. Open the `sync_data` subfolder in **Visual Studio Code (VS Code)**:
 
    * Open either `sync_data_xxxx_one_motor.py` or `sync_data_xxxx_two_motor.py`.
@@ -87,7 +87,7 @@ Using angle calculation algorithms and data-driven models, the system enables **
      * Yaw (USB1): `Request_Position_USB1`, `Current_Position_USB1`
 
 ---
-
+-->
 ## Video Capture
 
 1. In another VS Code window, run:
@@ -124,7 +124,7 @@ Using angle calculation algorithms and data-driven models, the system enables **
 5. Run the PCC modeling scripts to map the trajectory in the X-Z plane. *(To be added)*
 6. Stop video capture manually:
    * Press `q` in the real-time video window for all windows showing camera feed.
-
+7. Home the robot after finish the data collection by running `sync_data_0221_two_motor.py`.
 ---
 
 ## Emergency Stop
