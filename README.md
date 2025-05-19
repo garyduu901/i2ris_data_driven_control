@@ -125,6 +125,7 @@ Navigate to your workspace:
 6. Stop video capture manually:
    * Press `q` in the real-time video window for all windows showing camera feed.
 7. Home the robot after finish the data collection by running `sync_data_0221_two_motor.py`.
+8. Run `aruco_marker_track.py` to get the video with trajectory.
 ---
 
 ## Emergency Stop
