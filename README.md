@@ -4,12 +4,6 @@ This README provides step-by-step instructions for data collection and model val
 
 ---
 
-
-### Edits to Running Data Collection Procedure
-
-
----
-
 ## System Overview
 
 The I2RIS system captures the bending angles of the snake robot by applying various encoder counts to its motors. The setup includes:
@@ -108,20 +102,23 @@ Using angle calculation algorithms and data-driven models, the system enables **
    v4l2-ctl --list-devices
    ```
 
-   (Typically, devices are `/dev/video0` and `/dev/video4`)
+   (Typically, devices are `/dev/video0`, `/dev/video4`, and `/dev/video6`)
 
 3. Confirm real-time image feed windows open for both microscopes.
-
+4. Start the front camera by running `cap_traj.py` in a new VS Code window.
 ---
 
 ## Running Data Collection (Updated)
 
-1. Start the front camera by running `cap_traj.py` in a new VS Code window.
-2. Run one of the controller script:
+1. Run one of the controller script:
 - `mppi_controller.py`
 - `mppi_controller_kim_fwd_kin.py`
 - `lqr_controller_kim_fwd_kin.py`
 - `lqr_controller.py`
+2. Select desired trajectory by modifying parameters and attributes in function `desired_trajectory(t, desired_traj='')`:
+-  `'circle'`: trajectory of sine and cose wave inputs, modifying `omega, phase_shift` gives different trajectories.
+-  `'rect'`: rectangular trajectory, modifying `width_ratio, r` gives different size of rectangles.
+-  `'square'`: rectangular trajectory, modifying `r` gives different size of squares.
 3. Once the robot finishes running, press `'q'` in the front camera feed window to save the recorded video.
 4. Run `aruco_marker_track.py` to track the trajectory.
 5. Run the PCC modeling scripts to map the trajectory in the X-Z plane. *(To be added)*
@@ -146,7 +143,7 @@ get_angle.py
 ```
 
 Make sure paths are adjusted relative to your main folder.
-
+Outputs are saved as `output_w_angles.csv`
 ---
 
 ## Scripts and Folder Overview
